@@ -42,7 +42,7 @@ GFX4dGrid::~GFX4dGrid(){
 
 // I don't think adding collision detection code makes sense, it can be fix manually
 
-void GFX4dGrid::addSlider(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, void (*callback)(int), uint8_t initial_pos){
+void GFX4dGrid::addSlider(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, void (*callback)(int,int), uint8_t initial_pos, int id){
     if(input_count >= nInputs){
         return;
     }
@@ -50,7 +50,7 @@ void GFX4dGrid::addSlider(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, ui
     uint16_t y_ = y * gy + paddingy;
     uint16_t w_ = w * gx;
     uint16_t h_ = h * gy;
-    PWSlider *slider = new PWSlider(colorb, colorbp, tcolor, x_, y_,w_,h_,this->gfx, callback, initial_pos);
+    PWSlider *slider = new PWSlider(colorb, colorbp, tcolor, x_, y_,w_,h_,this->gfx, callback, initial_pos, id);
     inputs[input_count] = slider;
     for(int i = x; i < x + w; i++){
         for(int j = y; j < y + h; j++){
@@ -59,7 +59,7 @@ void GFX4dGrid::addSlider(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, ui
     }
     this->input_count++;
 }
-void GFX4dGrid::addButton(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, String text, void (*callback)(int), int textsize){
+void GFX4dGrid::addButton(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, String text, void (*callback)(int,int), int textsize, int id){
     if(input_count >= nInputs){
         return;
     }
@@ -67,7 +67,7 @@ void GFX4dGrid::addButton(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, ui
     uint16_t y_ = y * gy + paddingy;
     uint16_t w_ = w * gx;
     uint16_t h_ = h * gy;
-    PWButton *button = new PWButton(colorb,colorbp, tcolor, x_,y_,w_,h_,text,this->gfx, callback, textsize);
+    PWButton *button = new PWButton(colorb,colorbp, tcolor, x_,y_,w_,h_,text,this->gfx, callback, textsize, id);
     inputs[input_count] = button;
     for(int i = x; i < x + w; i++){
         for(int j = y; j < y + h; j++){
