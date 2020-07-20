@@ -21,6 +21,7 @@ GFX4dGrid::GFX4dGrid(GFX4d *gfx, int height, int width, int gridx, int gridy, in
     for(int i = 0; i < gridy; ++i) {
         grid[i] = new int[gridx]();
     }
+    this->input_count = 0;
     inputs = new PrimitiveInput*[nInputs];
     outputs = new PrimitiveOutput*[nOutputs];
 }
@@ -105,6 +106,12 @@ void GFX4dGrid::loop(){
         }
         uint16_t tx_ = tx/this->gx;
         uint16_t ty_ = ty/this->gy;
+        if(tx_ >= gridx){
+            tx_ = gridx -1;
+        }
+        if(ty_ >= gridy){
+            ty_ = gridy -1;
+        }
         int touch = grid[ty_][tx_];
         if(lastTouch != 0 && lastTouch != touch){
             inputs[lastTouch-1]->released();
