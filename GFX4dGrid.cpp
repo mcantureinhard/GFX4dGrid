@@ -85,7 +85,7 @@ int GFX4dGrid::AddLedGroup(uint16_t x, uint16_t y, uint16_t colorb, uint16_t tco
     return output_count-1;
 }
 
-void GFX4dGrid::updateOutput(uint16_t val, int nOutput){
+void GFX4dGrid::updateOutput(int32_t val, int nOutput){
     if(nOutput >= output_count){
         return;
     }
