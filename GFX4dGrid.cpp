@@ -5,6 +5,7 @@
 
 
 GFX4dGrid::GFX4dGrid(GFX4d *gfx, int height, int width, int gridx, int gridy, int nInputs, int nOutputs){
+    Serial.println("Grid init");
     this->gfx = gfx;
     this->h = height;
     this->w = width;
@@ -22,23 +23,37 @@ GFX4dGrid::GFX4dGrid(GFX4d *gfx, int height, int width, int gridx, int gridy, in
         grid[i] = new int[gridx]();
     }
     this->input_count = 0;
-    inputs = new PrimitiveInput*[nInputs];
-    outputs = new PrimitiveOutput*[nOutputs];
+    if(nInputs){
+        inputs = new PrimitiveInput*[nInputs];
+    }
+    if(nOutputs){
+        outputs = new PrimitiveOutput*[nOutputs];
+    }
 }
 
 GFX4dGrid::~GFX4dGrid(){
+    Serial.println("Grid delete");
     for(int i = 0; i < gridy; ++i) {
         delete [] grid[i];
     }
     delete [] grid;
-    for(int i = 0; i < input_count; i++){
-        delete inputs[i];
+    Serial.println("Grid deleted");
+    if(nInputs){
+        Serial.println("Will delete inputs");
+        for(int i = 0; i < input_count; i++){
+            delete inputs[i];
+        }
+        delete [] inputs;
     }
-    delete [] inputs;
-    for(int i = 0; i < output_count; i++){
-        delete outputs[i];
+    Serial.println("Inputs deleted");
+    if(nOutputs){
+        Serial.println("Will delete outputs");
+        for(int i = 0; i < output_count; i++){
+            delete outputs[i];
+        }
+        delete [] outputs;
     }
-    delete [] outputs;
+    Serial.println("Outputs deleted");
 }
 
 // I don't think adding collision detection code makes sense, it can be fix manually
