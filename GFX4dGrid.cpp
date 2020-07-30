@@ -146,6 +146,13 @@ void GFX4dGrid::updateOutput(int32_t val, int nOutput){
     outputs[nOutput]->update(val);
 }
 
+int32_t GFX4dGrid::getOutputValue(int nOutput){
+    if(nOutput >= output_count){
+        return -1;
+    }
+    return outputs[nOutput]->getValue();
+}
+
 
 void GFX4dGrid::loop(){
     if (gfx->touch_Update()) {

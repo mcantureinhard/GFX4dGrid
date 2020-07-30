@@ -24,7 +24,13 @@ void clearPress(int val, int id){
 }
 
 void cb(int v, int d){
-  Serial.println(d);
+  if(v == RELEASED){
+    int32_t val = grid->getOutputValue(led);
+    val *= 10;
+    val += d;
+    val %= 1000;
+    updateLed(val, d);
+  }
 }
 
 
