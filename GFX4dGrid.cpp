@@ -23,6 +23,7 @@ GFX4dGrid::GFX4dGrid(GFX4d *gfx, int height, int width, int gridx, int gridy, in
         grid[i] = new int[gridx]();
     }
     this->input_count = 0;
+    this->output_count = 0;
     if(nInputs){
         inputs = new PrimitiveInput*[nInputs];
     }
