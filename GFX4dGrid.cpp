@@ -36,13 +36,13 @@ GFX4dGrid::~GFX4dGrid(){
         delete [] grid[i];
     }
     delete [] grid;
-    if(nInputs){
+    if(input_count){
         for(int i = 0; i < input_count; i++){
             delete inputs[i];
         }
         delete [] inputs;
     }
-    if(nOutputs){
+    if(output_count){
         for(int i = 0; i < output_count; i++){
             delete outputs[i];
         }
