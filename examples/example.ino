@@ -16,13 +16,15 @@ void okPress(int val, int id){
   }
 }
 
-void cancelPress(int val, int id){
+void clearPress(int val, int id){
   Serial.print("Cancel: ");
-  if(val == 2){
-    Serial.println("pressed");
-  } else {
-    Serial.println("released");
+  if(val == RELEASED){
+    grid->updateOutput(0, led);
   }
+}
+
+void cb(int v, int d){
+  Serial.println(d);
 }
 
 
@@ -40,15 +42,14 @@ void setup() {
   gfx.SmoothScrollSpeed(5);
   gfx.TextColor(WHITE); gfx.Font(2);  gfx.TextSize(1);
   gfx.touch_Set(TOUCH_ENABLE);
-  String ok = " Ok";
-  String cancel = "Cancel";
 
-  grid = new GFX4dGrid(&gfx, 320, 240, 12,16,4,1);
-  grid->addButton(BLUE, DARKBLUE, WHITE, 6,14,6,2, ok, &okPress, 1, 1);
-  grid->addButton(RED, DARKRED, WHITE, 0,14,6,2, cancel, &cancelPress, 1, 2);
-  led = grid->addLedGroup(4,0,BLACK, WHITE, 3);
+  grid = new GFX4dGrid(&gfx, 320, 240, 12,16,5,1);
+  grid->addButton(BLUE, DARKBLUE, WHITE, 6,14,6,2, "NOP", &okPress, 2, 1);
+  grid->addButton(RED, DARKRED, WHITE, 0,14,6,2, "clear", &clearPress, 2, 2);
+  led = grid->addLedGroup(0,0,BLACK, WHITE, 3);
   grid->addSlider(GREEN, RED, WHITE, 1,4,10,2, &updateLed, 0, 1);
-  grid->addToggleButton(colors, 2, GRAY, WHITE, 4, 8, 4, 2, options, 2, &okPress, 2, 3); 
+  grid->addToggleButton(colors, 2, GRAY, WHITE, 6, 0, 4, 4, options, 2, &okPress, 2, 3);
+  grid->addNumericInput(BLACK, WHITE, WHITE, 0,6,12,8, &cb, 2, 4, 0);
 }
 
 void loop() {

@@ -112,6 +112,24 @@ void GFX4dGrid::addToggleButton(uint16_t *colorb, int colors, uint16_t colorbp, 
     this->input_count++;
 }
 
+void GFX4dGrid::addNumericInput(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, void (*callback)(int, int), int textsize, int id, uint8_t flags){
+    if(input_count >= nInputs){
+        return;
+    }
+    uint16_t x_ = x * gx + paddingx;
+    uint16_t y_ = y * gy + paddingy;
+    uint16_t w_ = w * gx;
+    uint16_t h_ = h * gy;
+    NumericInput *numInput = new NumericInput(colorb, colorbp, tcolor, x_,y_,w_,h_,this->gfx, callback, textsize, id, flags);
+    inputs[input_count] = numInput;
+    for(int i = x; i < x + w; i++){
+        for(int j = y; j < y + h; j++){
+            grid[j][i] = input_count+1;
+        }
+    }
+    this->input_count++;
+}
+
 int GFX4dGrid::addLedGroup(uint16_t x, uint16_t y, uint16_t colorb, uint16_t tcolor, int count){
     uint16_t x_ = x * gx + paddingx;
     uint16_t y_ = y * gy + paddingy;
