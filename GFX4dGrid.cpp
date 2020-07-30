@@ -59,9 +59,9 @@ GFX4dGrid::~GFX4dGrid(){
 
 // I don't think adding collision detection code makes sense, it can be fix manually
 
-void GFX4dGrid::addSlider(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, void (*callback)(int,int), uint8_t initial_pos, int id){
+int GFX4dGrid::addSlider(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, void (*callback)(int,int), uint8_t initial_pos, int id){
     if(input_count >= nInputs){
-        return;
+        return -1;
     }
     uint16_t x_ = x * gx + paddingx;
     uint16_t y_ = y * gy + paddingy;
@@ -75,6 +75,7 @@ void GFX4dGrid::addSlider(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, ui
         }
     }
     this->input_count++;
+    return (this->input_count-1);
 }
 void GFX4dGrid::addButton(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, String text, void (*callback)(int,int), int textsize, int id){
     if(input_count >= nInputs){
@@ -151,6 +152,13 @@ int32_t GFX4dGrid::getOutputValue(int nOutput){
         return -1;
     }
     return outputs[nOutput]->getValue();
+}
+
+void GFX4dGrid::resetInput(int nInput){
+    if(nInput >= input_count){
+        return;
+    }
+    inputs[nInput]->reset();
 }
 
 
