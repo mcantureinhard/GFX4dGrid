@@ -6,7 +6,6 @@
 
 
 GFX4dGrid::GFX4dGrid(GFX4d *gfx, int height, int width, int gridx, int gridy, int nInputs, int nOutputs){
-    Serial.println("Grid init");
     this->gfx = gfx;
     this->h = height;
     this->w = width;
@@ -33,33 +32,27 @@ GFX4dGrid::GFX4dGrid(GFX4d *gfx, int height, int width, int gridx, int gridy, in
 }
 
 GFX4dGrid::~GFX4dGrid(){
-    Serial.println("Grid delete");
     for(int i = 0; i < gridy; ++i) {
         delete [] grid[i];
     }
     delete [] grid;
-    Serial.println("Grid deleted");
     if(nInputs){
-        Serial.println("Will delete inputs");
         for(int i = 0; i < input_count; i++){
             delete inputs[i];
         }
         delete [] inputs;
     }
-    Serial.println("Inputs deleted");
     if(nOutputs){
-        Serial.println("Will delete outputs");
         for(int i = 0; i < output_count; i++){
             delete outputs[i];
         }
         delete [] outputs;
     }
-    Serial.println("Outputs deleted");
 }
 
 // I don't think adding collision detection code makes sense, it can be fix manually
 
-int GFX4dGrid::addSlider(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, void (*callback)(int,int), uint8_t initial_pos, int id){
+int GFX4dGrid::addSlider(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, void (*callback)(int,int,int), uint8_t initial_pos, int id){
     if(input_count >= nInputs){
         return -1;
     }
@@ -77,9 +70,9 @@ int GFX4dGrid::addSlider(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uin
     this->input_count++;
     return (this->input_count-1);
 }
-void GFX4dGrid::addButton(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, String text, void (*callback)(int,int), int textsize, int id){
+int GFX4dGrid::addButton(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, String text, void (*callback)(int,int,int), int textsize, int id){
     if(input_count >= nInputs){
-        return;
+        return -1;
     }
     uint16_t x_ = x * gx + paddingx;
     uint16_t y_ = y * gy + paddingy;
@@ -93,11 +86,12 @@ void GFX4dGrid::addButton(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, ui
         }
     }
     this->input_count++;
+    return (this->input_count-1);
 }
 
-void GFX4dGrid::addToggleButton(uint16_t *colorb, int colors, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, String *textOptions, int options, void (*callback)(int, int), int textsize, int id){
+int GFX4dGrid::addToggleButton(uint16_t *colorb, int colors, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, String *textOptions, int options, void (*callback)(int, int,int), int textsize, int id){
     if(input_count >= nInputs){
-        return;
+        return -1;
     }
     uint16_t x_ = x * gx + paddingx;
     uint16_t y_ = y * gy + paddingy;
@@ -111,11 +105,12 @@ void GFX4dGrid::addToggleButton(uint16_t *colorb, int colors, uint16_t colorbp, 
         }
     }
     this->input_count++;
+    return (this->input_count-1);
 }
 
-void GFX4dGrid::addNumericInput(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, void (*callback)(int, int), int textsize, int id, uint8_t flags){
+int GFX4dGrid::addNumericInput(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, void (*callback)(int, int, int), int textsize, int id, uint8_t flags){
     if(input_count >= nInputs){
-        return;
+        return -1;
     }
     uint16_t x_ = x * gx + paddingx;
     uint16_t y_ = y * gy + paddingy;
@@ -129,6 +124,7 @@ void GFX4dGrid::addNumericInput(uint16_t colorb, uint16_t colorbp, uint16_t tcol
         }
     }
     this->input_count++;
+    return (this->input_count-1);
 }
 
 int GFX4dGrid::addLedGroup(uint16_t x, uint16_t y, uint16_t colorb, uint16_t tcolor, int count){
@@ -161,6 +157,12 @@ void GFX4dGrid::resetInput(int nInput){
     inputs[nInput]->reset();
 }
 
+void GFX4dGrid::setInputEnabled(int nInput, bool enabled){
+    if(nInput >= input_count){
+        return;
+    }
+    inputs[nInput]->setEnabled(enabled);
+}
 
 void GFX4dGrid::loop(){
     if (gfx->touch_Update()) {

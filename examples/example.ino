@@ -8,7 +8,7 @@ int slider;
 String options[] = {"ON", "OFF"};
 uint16_t colors[] = {SEAGREEN,MEDIUMVIOLETRED};
 
-void okPress(int val, int id){
+void okPress(int val, int id, int extra){
   Serial.print("OK: ");
   if(val == 2){
     Serial.println("pressed");
@@ -17,7 +17,7 @@ void okPress(int val, int id){
   }
 }
 
-void clearPress(int val, int id){
+void clearPress(int val, int id, int extra){
   Serial.print("Cancel: ");
   if(val == RELEASED){
     grid->updateOutput(0, led);
@@ -25,7 +25,7 @@ void clearPress(int val, int id){
   }
 }
 
-void cb(int v, int d){
+void cb(int v, int d, int e){
   if(v == RELEASED){
     int32_t val = grid->getOutputValue(led);
     val *= 10;
@@ -36,7 +36,7 @@ void cb(int v, int d){
 }
 
 
-void updateLed(int val, int id){
+void updateLed(int val, int id, int e){
   grid->updateOutput((uint16_t)val, led);
 }
 
