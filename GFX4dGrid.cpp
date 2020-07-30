@@ -90,7 +90,7 @@ int GFX4dGrid::addButton(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uin
     return (this->input_count-1);
 }
 
-int GFX4dGrid::addToggleButton(uint16_t *colorb, int colors, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, String *textOptions, int options, void (*callback)(int, int,int), int textsize, int id){
+int GFX4dGrid::addToggleButton(uint16_t *colorb, int colors, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, String *textOptions, int options, void (*callback)(int, int,int), int textsize, int id, int selected){
     if(input_count >= nInputs){
         return -1;
     }
@@ -98,7 +98,7 @@ int GFX4dGrid::addToggleButton(uint16_t *colorb, int colors, uint16_t colorbp, u
     uint16_t y_ = y * gy + paddingy;
     uint16_t w_ = w * gx;
     uint16_t h_ = h * gy;
-    ToggleButton *button = new ToggleButton(colorb, colors, colorbp, tcolor, x_,y_,w_,h_,textOptions,options,this->gfx, callback, textsize, id);
+    ToggleButton *button = new ToggleButton(colorb, colors, colorbp, tcolor, x_,y_,w_,h_,textOptions,options,this->gfx, callback, textsize, id, selected);
     inputs[input_count] = button;
     for(int i = x; i < x + w; i++){
         for(int j = y; j < y + h; j++){

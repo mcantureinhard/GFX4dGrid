@@ -35,7 +35,7 @@ class GFX4dGrid {
     ~GFX4dGrid();
     int addSlider(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, void (*callback)(int,int, int), uint8_t initial_pos, int id);
     int addButton(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, String text, void (*callback)(int, int, int), int textsize, int id);
-    int addToggleButton(uint16_t *colorb, int colors, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, String *textOptions, int options, void (*callback)(int, int, int), int textsize, int id);
+    int addToggleButton(uint16_t *colorb, int colors, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, String *textOptions, int options, void (*callback)(int, int, int), int textsize, int id, int selected);
     int addNumericInput(uint16_t colorb, uint16_t colorbp, uint16_t tcolor, uint16_t x, uint16_t y, uint16_t w, uint16_t h, void (*callback)(int, int, int), int textsize, int id, uint8_t flags);
     int addLedGroup(uint16_t x, uint16_t y, uint16_t colorb, uint16_t tcolor, int count);
     void updateOutput(int32_t val, int nOutput);
