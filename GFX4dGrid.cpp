@@ -128,10 +128,10 @@ int GFX4dGrid::addNumericInput(uint16_t colorb, uint16_t colorbp, uint16_t tcolo
     return (this->input_count-1);
 }
 
-int GFX4dGrid::addLedGroup(uint16_t x, uint16_t y, uint16_t colorb, uint16_t tcolor, int count){
+int GFX4dGrid::addLedGroup(uint16_t x, uint16_t y, uint16_t colorb, uint16_t tcolor, int count, int32_t initialValue){
     uint16_t x_ = x * gx + paddingx;
     uint16_t y_ = y * gy + paddingy;
-    LedGroup *led = new LedGroup(x_, y_, colorb, tcolor, count, this->gfx);
+    LedGroup *led = new LedGroup(x_, y_, colorb, tcolor, count, this->gfx, initialValue);
     outputs[output_count] = led;
     output_count++;
     return output_count-1;
